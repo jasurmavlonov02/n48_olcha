@@ -1,8 +1,15 @@
 from rest_framework import serializers
-from olcha.models import Category
+from olcha.models import Category, Group
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = '__all__'
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    groups = GroupSerializer(many=True, read_only=True)
     full_image_url = serializers.SerializerMethodField()
     count = serializers.SerializerMethodField(method_name='groups_count')
 
@@ -21,4 +28,4 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'title', 'full_image_url', 'slug','count']
+        fields = ['id', 'title', 'full_image_url', 'slug', 'count','groups']

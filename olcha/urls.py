@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 from olcha import views
 
 urlpatterns = [
-    path('categories/', views.CategoryListApiView.as_view(), name='categories')
+    path('categories/', views.CategoryListApiView.as_view(), name='categories'),
+    path('groups/', views.GroupListApiView.as_view(), name='groups'),
+    path('category/<slug:slug>/',views.CategoryDetail.as_view(), name='category')
 
 ]
