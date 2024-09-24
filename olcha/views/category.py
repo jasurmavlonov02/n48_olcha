@@ -10,7 +10,11 @@ from olcha.models import Category, Group
 from olcha.serializers import CategorySerializer, GroupSerializer
 
 
-# Create your views here.
+class CategoryDetailApiView(APIView):
+    def get(self, request, category_slug):
+        category = Category.objects.get(slug=category_slug)
+        serializer = CategorySerializer(category, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CategoryListApiView(APIView):
@@ -27,26 +31,4 @@ class CategoryListApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class GroupListApiView(ListCreateAPIView):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-
-class CategoryDetailApiView(APIView):
-    def get(self, request, category_slug):
-        category = Category.objects.get(slug=category_slug)
-        serializer = CategorySerializer(category, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class CategoryDetail(GenericAPIView):
-
-
-    def get(self, request, slug):
-        category = Category.objects.get(slug=slug)
-        serializer = CategorySerializer(category, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 

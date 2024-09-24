@@ -52,7 +52,7 @@ class Product(BaseModel):
     price = models.FloatField(null=True, blank=True, default=0)
     quantity = models.PositiveIntegerField(default=0, null=True, blank=True)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, related_name='products')
-    users_like = models.ManyToManyField(User, related_name='products')
+    users_like = models.ManyToManyField(User, related_name='products',null=True,blank=True)
     slug = models.SlugField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -66,7 +66,7 @@ class Product(BaseModel):
 
 class Image(BaseModel):
     image = models.ImageField(upload_to='image/%Y/%m/%d/', null=True, blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True,related_name='images')
     is_primary = models.BooleanField(default=False)
 
 

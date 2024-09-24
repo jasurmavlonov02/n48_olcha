@@ -2,11 +2,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from olcha import views
+from olcha.views import category,group,product
+
 
 urlpatterns = [
-    path('categories/', views.CategoryListApiView.as_view(), name='categories'),
-    path('groups/', views.GroupListApiView.as_view(), name='groups'),
-    path('category/<slug:slug>/',views.CategoryDetail.as_view(), name='category')
+    path('categories/', category.CategoryListApiView.as_view(), name='categories'),
+    path('groups/', group.GroupListApiView.as_view(), name='groups'),
+    path('category/<slug:slug>/',category.CategoryDetailApiView.as_view(), name='category'),
+    path('all-products/', product.ProductListApiView.as_view(),name='all-products'),
+    path('all-images/', product.ImageListApiView.as_view(),name='all-products'),
 
 ]
