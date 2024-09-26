@@ -1,6 +1,6 @@
 from django.db.models import Avg
 from rest_framework import serializers
-from olcha.models import Category, Group, Product, Image, Comment
+from olcha.models import Category, Group, Product, Image, Comment, ProductAttribute
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -44,7 +44,24 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProductAttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductAttribute
+        exclude = ('id','product','attr_key','attr_value')
+
+    def to_representation(self, instance):
+        context = super(ProductAttributeSerializer, self).to_representation(instance)
+        context['key_id'] = instance.attr_key.id
+        context['key_name'] = instance.attr_key.key_name
+
+        context['value_id'] = instance.attr_value.id
+        context['value_name'] = instance.attr_value.value_name
+        return context
+        # return {instance.attr_key.key_name: instance.attr_value.value_name}
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    attributes = ProductAttributeSerializer(many=True,read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     # images = ImageSerializer(many=True, read_only=True)
     all_images = serializers.SerializerMethodField()
@@ -53,7 +70,7 @@ class ProductSerializer(serializers.ModelSerializer):
     avg_rating = serializers.SerializerMethodField()
 
     def get_avg_rating(self, instance):
-        instance = instance.comments.all().aggregate(avg_rating=Avg('rating',default=0))
+        instance = instance.comments.all().aggregate(avg_rating=Avg('rating', default=0))
         return round(instance['avg_rating'])
 
     def get_users_like(self, product):

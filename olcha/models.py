@@ -109,12 +109,23 @@ class Comment(BaseModel):
 
 
 class AttributeKey(models.Model):
-    pass
+    key_name = models.CharField(max_length=255, null=True, blank=True)
+
+
+    def __str__(self):
+        return self.key_name
 
 
 class AttributeValue(BaseModel):
-    pass
+    value_name = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.value_name
 
 
 class ProductAttribute(models.Model):
-    pass
+    attr_key = models.ForeignKey(AttributeKey, on_delete=models.CASCADE, null=True, blank=True)
+    attr_value = models.ForeignKey(AttributeValue, on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True,related_name='attributes')
+
+
