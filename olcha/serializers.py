@@ -95,3 +95,21 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+BASIC authenticatin
+SESSION 
+Token
+Django JWT => Json Web TOken
+'''

@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'book.apps.BookConfig',
     'olcha.apps.OlchaConfig',
     'rest_framework',
+    'rest_framework.authtoken',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +134,17 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     ]
 
 }
+
+'''
+BasicAuthentication
+SessionAuthentication
+TokenAuthentication
+JWT
+'''
