@@ -1,14 +1,14 @@
-from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 from rest_framework.generics import ListCreateAPIView, ListAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.permissions import AllowAny
 
 from olcha.models import Product, Image
 from olcha.serializers import ProductSerializer, ImageSerializer
 
 
 class ProductListApiView(ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    permission_classes = [AllowAny]
+    # authentication_classes = [JWTAuthentication]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 

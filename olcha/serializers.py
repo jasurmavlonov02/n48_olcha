@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from django.db.models import Avg
 from rest_framework import serializers
 from olcha.models import Category, Group, Product, Image, Comment, ProductAttribute
@@ -47,7 +49,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class ProductAttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductAttribute
-        exclude = ('id','product','attr_key','attr_value')
+        exclude = ('id', 'product', 'attr_key', 'attr_value')
 
     def to_representation(self, instance):
         context = super(ProductAttributeSerializer, self).to_representation(instance)
@@ -61,7 +63,7 @@ class ProductAttributeSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    attributes = ProductAttributeSerializer(many=True,read_only=True)
+    attributes = ProductAttributeSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     # images = ImageSerializer(many=True, read_only=True)
     all_images = serializers.SerializerMethodField()
@@ -100,16 +102,3 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 
-
-
-
-
-
-
-
-'''
-BASIC authenticatin
-SESSION 
-Token
-Django JWT => Json Web TOken
-'''
